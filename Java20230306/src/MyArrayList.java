@@ -45,7 +45,7 @@ public class MyArrayList {
 
     /**
      * 获取顺序表长度
-     * @return 顺序表元素占用长度
+     * @return 顺序表长度
      */
     public int size() {
         return this.realSize;
@@ -68,7 +68,7 @@ public class MyArrayList {
     }
 
     /**
-     * 判断顺序表是否满了
+     * 判断顺序表是否已满
      * @return true:满 / false:未满
      */
     private boolean isFull() {
@@ -87,7 +87,7 @@ public class MyArrayList {
      * @param pos 新增元素位置
      * @param data 新增元素
      */
-    public void indexOf(int pos, int data){
+    public void add(int pos, int data){
         // 下标判断
         try {
             examineIndex(pos);
@@ -120,7 +120,7 @@ public class MyArrayList {
 
     /**
      * 检查下标是否合法
-     * @param pos 被检查下标
+     * @param pos 检查下标
      * @throws IndexOverException 下标不合法异常
      */
     private void examineIndex(int pos) throws IndexOverException{
@@ -141,5 +141,79 @@ public class MyArrayList {
             }
         }
         return false;
+    }
+
+    /**
+     * 返回某元素下标值
+     * @param toFind 查找元素
+     * @return 元素对应下标
+     */
+    public int indexOf(int toFind) {
+        for (int i = 0; i < this.realSize; i++) {
+            if (this.elem[i] == toFind) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 更改指定位置元素
+     * @param pos 元素下标
+     * @param data 更改值
+     */
+    public void set(int pos, int data) {
+        // 下标判断
+        try {
+            examineIndex(pos);
+        } catch (IndexOverException e) {
+            e.printStackTrace();
+        }
+        if (pos == this.realSize) {
+            add(data);
+            return;
+        }
+        // 更改元素
+        this.elem[pos] = data;
+    }
+
+    /**
+     * 删除第一个出现的元素
+     * @param toRemove 删除值
+     */
+    public void remove(int toRemove) {
+        int pos = indexOf(toRemove);
+        // 没有该元素情况
+        if (pos == -1) {
+            return ;
+        }
+        // 最后一个元素
+        if (pos == this.realSize - 1) {
+            this.elem[pos] = 0;
+            this.realSize--;
+            return;
+        }
+        // 进行移位删除
+        int cur = pos + 1;
+        while (cur != this.realSize) {
+            this.elem[pos] = this.elem[cur];
+            pos++;
+            cur++;
+        }
+        // 有效元素-1
+        this.elem[pos] = 0;
+        this.realSize--;
+    }
+
+    /**
+     * 清空顺序表
+     */
+    public void clear() {
+        // 各值设为空
+        for (int i = 0; i < this.realSize; i++) {
+            this.elem[i] = 0;
+        }
+        // 清空有效元素个数
+        this.realSize = 0;
     }
 }
