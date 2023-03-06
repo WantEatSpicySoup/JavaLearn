@@ -12,8 +12,10 @@ public class Test {
         myArrayList.add(5);
         myArrayList.add(6);
         myArrayList.printList();
+        System.out.println("========================");
         myArrayList.indexOf(6, 20);
         myArrayList.indexOf(4, 30);
         myArrayList.printList();
+        System.out.println("========================");
     }
 }
