@@ -162,4 +162,107 @@ public class SingleLinkedList {
             throw new IndexException("下标不合法，请重新输入");
         }
     }
+
+    /**
+     * 判断单链表中是否包含key元素
+     * @param key 要判断元素
+     * @return true:包含 / false:不包含
+     */
+    public boolean contains(int key) {
+        // 判空
+        if (this.head == null) {
+            return false;
+        }
+        SingleLinkedList cur = this.head;
+        while (cur != null) {
+            if (cur.val == key) {
+                return true;
+            }
+            cur = cur.next;
+        }
+        // key元素不存在
+        return false;
+    }
+
+    /**
+     * 删除第一次出现的关键字key
+     * @param key 删除的值
+     */
+    public void removeOne(int key) {
+        // 判空
+        if (this.head == null) {
+            return;
+        }
+        // 单链表1个元素
+        if (this.head.val == key) {
+            this.head = this.head.next;
+            return;
+        }
+        // 找到key前一个节点
+        SingleLinkedList prev = findPrev(key);
+        // 判空
+        if (prev == null) {
+            return;
+        }
+        // 删除
+        prev.next = prev.next.next;
+    }
+
+    /**
+     * 找到key元素前一个节点
+     * @param key 要查找元素
+     * @return key前一个节点
+     */
+    private SingleLinkedList findPrev(int key) {
+        SingleLinkedList cur = this.head;
+        while (cur.next != null) {
+            if (cur.next.val == key) {
+                return cur;
+            }
+            cur = cur.next;
+        }
+        return null;
+    }
+
+    /**
+     * 删除值为key的所有节点
+     * @param key 要删除元素的值
+     */
+    public void removeAll(int key) {
+        // 判空
+        if (this.head == null) {
+            return;
+        }
+        SingleLinkedList cur = this.head.next;
+        SingleLinkedList prev = this.head;
+        while (cur != null) {
+            if (cur.val == key) {
+                prev.next = cur.next;
+            }else {
+                prev = cur;
+            }
+            cur = cur.next;
+        }
+        // 处理头节点数据
+        if (this.head.val == key) {
+            this.head = this.head.next;
+        }
+    }
+
+    /**
+     * 清空单链表
+     */
+    public void clear() {
+        // 判空
+        if (this.head == null) {
+            return;
+        }
+        SingleLinkedList cur = this.head.next;
+        while (cur != null) {
+            this.head.next = null;
+            this.head = cur;
+            cur = cur.next;
+        }
+        this.head = null;
+    }
 }
