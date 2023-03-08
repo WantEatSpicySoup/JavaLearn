@@ -18,5 +18,11 @@ public class Test {
         singleLinkedList.addLast(8);
         singleLinkedList.addLast(9);
         singleLinkedList.printList();
+        // 下标插入 测试
+        singleLinkedList.addIndex(0, 10);
+        singleLinkedList.addIndex(4, 22);
+        singleLinkedList.addIndex(11, 22);
+        singleLinkedList.addIndex(13, 22);
+        singleLinkedList.printList();
     }
 }

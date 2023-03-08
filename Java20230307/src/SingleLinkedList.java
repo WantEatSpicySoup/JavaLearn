@@ -46,6 +46,23 @@ public class SingleLinkedList {
     }
 
     /**
+     * 计算当前单链表长度
+     * @return 单链表长度
+     */
+    public int size() {
+        if (this.head == null) {
+            return -1;
+        }
+        int count = 0;
+        SingleLinkedList cur = this.head;
+        while (cur != null) {
+            count++;
+            cur = cur.next;
+        }
+        return count;
+    }
+
+    /**
      * 头插法
      * @param data 插入值
      */
@@ -90,33 +107,59 @@ public class SingleLinkedList {
         return cur;
     }
 
-    public void addIndex(int index, int data) throws IndexException{
-        if (index < 0) {
-            throw new IndexException("下标异常，请重新输入！");
+    /**
+     * 根据下标插入元素
+     * @param index 下标
+     * @param data 元素
+     */
+    public void addIndex(int index, int data) {
+        // 判断下标
+        try {
+            checkIndex(index);
+        } catch (IndexException e) {
+            e.printStackTrace();
+            return;
         }
-        // 查找下标index的节点
-        SingleLinkedList indexNode = findIndexNode(index);
-        if (indexNode == null) {
-            throw new IndexException("下标异常，请重新输入！");
+        // 下标为0调用头插法
+        if (index == 0) {
+            addFirst(data);
+            return;
         }
+        // 下标为size()调用尾插法
+        if (index == size()) {
+            addLast(data);
+            return;
+        }
+        // 找到index-1节点
+        SingleLinkedList prevNode = findPrevNode(index);
+        // 创建新节点
         SingleLinkedList newNode = new SingleLinkedList(data);
-
+        newNode.next = prevNode.next;
+        prevNode.next = newNode;
     }
 
     /**
-     * 找到下标为index的节点
+     * 找到下标值前一节点
      * @param index 下标
-     * @return index个节点
+     * @return 前一节点
      */
-    private SingleLinkedList findIndexNode(int index) {
-        SingleLinkedList cur = this.head;
-        while (cur != null) {
-            if (index == 1) {
-                return cur;
-            }
-            cur = cur.next;
+    private SingleLinkedList findPrevNode(int index) {
+        SingleLinkedList prev = this.head;
+        while (index-1 != 0) {
+            prev = prev.next;
             index--;
         }
-        return null;
+        return prev;
+    }
+
+    /**
+     * 检查下标是否合法
+     * @param index 检查的下标
+     * @throws IndexException 可能抛出的异常
+     */
+    public void checkIndex(int index) throws IndexException{
+        if (index < 0 || index > size()) {
+            throw new IndexException("下标不合法，请重新输入");
+        }
     }
 }
